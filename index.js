@@ -18,7 +18,12 @@ mongoose.connect(MONGODB_URI)
     .catch((err) => {
         console.error("Error connecting to MongoDB:", err);
     });
+    
 
+// Get Request (default)
+app.get('/', (req, res) => {
+    res.send('Welcome to the Electrum server!');
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
