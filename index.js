@@ -2,11 +2,11 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose'); 
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 const User = require('./schema/user-schema'); 
 
-
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; 
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,20 +20,20 @@ mongoose.connect(MONGODB_URI)
     .catch((err) => {
         console.error("Error connecting to MongoDB:", err);
     });
-    
 
 // Get Request (default)
 app.get('/', (req, res) => {
     res.send('Welcome to the Electrum Server!');
 });
 
-
-
 // User Authentication...
-app.post('/sign-up', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        const newUser = new User({ name, email, password });
+        const saltRounds = 10; 
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
         res.status(201).send('User sign-up successfully');
     } catch (error) {
@@ -45,3 +45,5 @@ app.post('/sign-up', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
+
+
