@@ -1,12 +1,11 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose'); 
-const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 require('dotenv').config();
-const User = require('./schema/user-schema'); 
+const User = require('./schema/user-schema');
 
-const PORT = process.env.PORT || 3001; 
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,11 +28,9 @@ app.get('/', (req, res) => {
 // User Authentication...
 app.post('/api/signup', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
-        const saltRounds = 10; 
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const { name, email, role } = req.body;
 
-        const newUser = new User({ name, email, password: hashedPassword });
+        const newUser = new User({ name, email, role });
         await newUser.save();
         res.status(201).send('User sign-up successfully');
     } catch (error) {
