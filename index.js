@@ -39,6 +39,17 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
+// Getting All User
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await User.find();
+        res.status(200).json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Error fetching users');
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
