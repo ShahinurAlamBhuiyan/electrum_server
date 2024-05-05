@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const User = require('./schema/user-schema');
+const Components = require("./schema/component-schema");
 
 const PORT = process.env.PORT || 3001;
 
@@ -52,24 +53,37 @@ app.get('/api/users', async (req, res) => {
 
 // Get user by email
 app.get('/api/user', async (req, res) => {
-    
+
     try {
         const email = req.query.email;
         if (!email) {
             return res.status(400).send('Email parameter is required');
         }
 
-        const user = await User.findOne({ email }); 
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).send('User not found');
         }
 
-        res.status(200).json(user); 
+        res.status(200).json(user);
     } catch (error) {
         console.error('Error fetching user by email:', error);
         res.status(500).send('Internal Server Error');
     }
 });
+
+// Components Post ....
+app.post('/api/post-component', async (req, res) => {
+    try {
+        const { name, description, selling_price, quantity, owner_id, date, buying_price, type } = req.body;
+        const newComponent = new Components({ name, description, selling_price, quantity, owner_id, date, buying_price, type });
+        console.log(newComponent)
+        await newComponent.save();
+    } catch (error) {
+        console.error('Error saving component:', error);
+        res.status(500).send('Error adding component');
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

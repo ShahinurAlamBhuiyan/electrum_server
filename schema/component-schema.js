@@ -21,9 +21,8 @@ const componentSchema = new mongoose.Schema({
     min: 0,
   },
   owner_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
-    ref: 'User', 
   },
   date: {
     type: Date,
