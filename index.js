@@ -72,11 +72,11 @@ app.get('/api/user', async (req, res) => {
     }
 });
 
-// Components Post ....
+// Component Post ....
 app.post('/api/post-component', async (req, res) => {
     try {
-        const { name, description, selling_price, quantity, owner_id, date, buying_price, type } = req.body;
-        const newComponent = new Components({ name, description, selling_price, quantity, owner_id, date, buying_price, type });
+        const { name, description, img_URL, selling_price, quantity, owner_id, date, buying_price, type } = req.body;
+        const newComponent = new Components({ name, description, img_URL, selling_price, quantity, owner_id, date, buying_price, type });
         console.log(newComponent)
         await newComponent.save();
     } catch (error) {

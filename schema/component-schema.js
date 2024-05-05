@@ -10,6 +10,10 @@ const componentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  img_URL: {
+    type: String,
+    required: true
+  },
   selling_price: {
     type: Number,
     required: true,
