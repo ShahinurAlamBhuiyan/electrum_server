@@ -50,6 +50,27 @@ app.get('/api/users', async (req, res) => {
     }
 })
 
+// Get user by email
+app.get('/api/user', async (req, res) => {
+    
+    try {
+        const email = req.query.email;
+        if (!email) {
+            return res.status(400).send('Email parameter is required');
+        }
+
+        const user = await User.findOne({ email }); 
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.status(200).json(user); 
+    } catch (error) {
+        console.error('Error fetching user by email:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
