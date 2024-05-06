@@ -33,7 +33,7 @@ app.post('/api/signup', async (req, res) => {
 
         const newUser = new User({ name, email, role });
         await newUser.save();
-        res.status(201).send('User sign-up successfully');
+        res.status(200).json(newUser);
     } catch (error) {
         console.error('Error saving user:', error);
         res.status(500).send('Error registering user');
@@ -82,7 +82,7 @@ app.post('/api/post-component', async (req, res) => {
 })
 
 app.get('/api/my-components/:owner_id', async (req, res) => {
-    const owner_id = req.params.owner_id; 
+    const owner_id = req.params.owner_id;
 
     // Find components with the owner_id
     const components = await Components.find({ owner_id });
