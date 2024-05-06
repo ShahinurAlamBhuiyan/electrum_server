@@ -93,6 +93,17 @@ app.get('/api/my-components/:owner_id', async (req, res) => {
     res.status(200).json(components);
 });
 
+// Get all components
+app.get('/api/components', async (req, res) => {
+    try {
+        const components = await Components.find();
+        res.status(200).json(components);
+    } catch (error) {
+        console.error('Error fetching components:', error);
+        res.status(500).send('Error fetching components');
+    }
+})
+
 
 
 app.listen(PORT, () => {
