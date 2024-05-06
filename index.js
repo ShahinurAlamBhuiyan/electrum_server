@@ -53,30 +53,27 @@ app.get('/api/users', async (req, res) => {
 
 // Get user by email
 app.get('/api/user', async (req, res) => {
-
-    try {
-        const email = req.query.email;
-        if (!email) {
-            return res.status(400).send('Email parameter is required');
-        }
-
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-
-        res.status(200).json(user);
-    } catch (error) {
-        console.error('Error fetching user by email:', error);
-        res.status(500).send('Internal Server Error');
+    const email = req.query.email; // Extracting email from query parameters
+    if (!email) {
+      return res.status(400).send('Email parameter is required');
     }
-});
+  
+    // Find the user with the given email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+  
+    res.status(200).json(user);
+  });
+  
 
 // Component Post ....
 app.post('/api/post-component', async (req, res) => {
     try {
-        const { name, description, img_URL, selling_price, quantity, owner_id, date, buying_price, type } = req.body;
-        const newComponent = new Components({ name, description, img_URL, selling_price, quantity, owner_id, date, buying_price, type });
+        const { name, description, img_URL, selling_price, buying_price, quantity, owner_id, type, date } = req.body;
+
+        const newComponent = new Components({ name, description, img_URL, selling_price, buying_price, quantity, owner_id, type, date });
         console.log(newComponent)
         await newComponent.save();
     } catch (error) {
@@ -84,6 +81,8 @@ app.post('/api/post-component', async (req, res) => {
         res.status(500).send('Error adding component');
     }
 })
+
+// "{"name":"Arduino Uno","description":"fadf","img_URL":"fdafdas","sellingPrice":"32","buyingPrice":"32","quantity":"1","type":"old","owner_id":""}"
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

@@ -18,6 +18,10 @@ const componentSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
+  }, buying_price: {
+    type: Number,
+    required: true,
+    min: 0,
   },
   quantity: {
     type: Number,
@@ -28,20 +32,15 @@ const componentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  buying_price: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
   type: {
     type: String,
     required: true,
     enum: ['new', 'old'],
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  }
 }, { timestamps: true });
 
 const Components = mongoose.model('Components', componentSchema);
