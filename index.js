@@ -67,6 +67,24 @@ app.get('/api/user', async (req, res) => {
     res.status(200).json(user);
 });
 
+// Get user by id
+app.get('/api/user/:id', async (req, res) => {
+    try {
+        const user_id = req.params.id;
+
+        // Find the user by its MongoDB ObjectId
+        const user = await User.findById(user_id);
+        if (!user) {
+            return res.status(404).send('No component found for the given user_id');
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error fetching user by ID:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 // Component 
 app.post('/api/post-component', async (req, res) => {
@@ -103,6 +121,28 @@ app.get('/api/components', async (req, res) => {
         res.status(500).send('Error fetching components');
     }
 })
+
+
+// find component with id
+app.get('/api/component/:id', async (req, res) => {
+    try {
+        const component_id = req.params.id;
+
+        // Find the component by its MongoDB ObjectId
+        const component = await Components.findById(component_id);
+        if (!component) {
+            return res.status(404).send('No component found for the given component_id');
+        }
+
+        res.status(200).json(component);
+    } catch (error) {
+        console.error('Error fetching component by ID:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
 
 
 
